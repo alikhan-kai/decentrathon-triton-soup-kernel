@@ -1,0 +1,37 @@
+{
+  "start_utc": "2026-10-31T18:27:36Z",
+  "stop_gpu_utc": "2026-10-31T18:55:00Z",
+  "publish_deadline_utc": "2026-10-31T18:58:00Z",
+  "base": "2e7df7b8abf89879b8825ea297afbbcbbaf363f7",
+  "max_variants": 2,
+  "max_full_runs": 4,
+  "public_seed": 1,
+  "robustness_seed": 17,
+  "robustness_train_rows": [
+    1000,
+    1256
+  ],
+  "robustness_eval_rows": [
+    41000,
+    41256
+  ],
+  "data_impact": "no changes to official task or published dataset; separate predetermined public replay only",
+  "status": "selected_c580bf8_verified",
+  "fixed_plan": [
+    "unchanged H20 public seed1 ABBA",
+    "refinement public seed1 ABBA",
+    "refinement predeclared disjoint public rows seed17 ABBA"
+  ],
+  "publication_deadline_utc": "2026-10-31T18:58:00Z",
+  "latest_user_goal": "sub 50 seconds",
+  "runtime_commit": "c580bf8ae53c24b0d4fa08e4d64b08936e3ac1f6",
+  "extra_hypothesis": "Compile missing labelled-logit cache specialization while loading model; unchanged arithmetic and cache size",
+  "replay_status": "not run: insufficient time at original 7-minute remaining-time guard",
+  "speed_variant_status": "prepared but not executed: queued cell cancelled after preceding deadline guard; not promoted",
+  "final_measurement": {
+    "wall_s": 53.62,
+    "gpu_peak_mib": 3065,
+    "checks": 10,
+    "runtime_commit": "c580bf8ae53c24b0d4fa08e4d64b08936e3ac1f6"
+  }
+}

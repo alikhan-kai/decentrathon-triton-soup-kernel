@@ -1,0 +1,32 @@
+{
+  "runtime_commit": "c580bf8ae53c24b0d4fa08e4d64b08936e3ac1f6",
+  "run": "judge-public",
+  "source_files_verified": 44,
+  "protected_files_unchanged": true,
+  "checks": 10,
+  "result_sha256": "bd5e4933101af2c24de87752d730f036b538e9a5790668d2653e3627c8ddcab6",
+  "archive_sha256": "6a2634c8aec9e7a16975c80b228614be600e14a7b35fbe5b51fc1328c9aa049f",
+  "summary": {
+    "base": {
+      "ok": true,
+      "runs": 2,
+      "wall_s": 86.41,
+      "gpu_peak_mib": 14345,
+      "train_loop_s": 64.23,
+      "eval_loss": 2.04964
+    },
+    "solution": {
+      "ok": true,
+      "runs": 2,
+      "wall_s": 53.62,
+      "gpu_peak_mib": 3065,
+      "train_loop_s": 36.22,
+      "eval_loss": 2.04978
+    },
+    "ratios": {
+      "speedup": 1.6115,
+      "memory_ratio": 4.6803,
+      "quality_delta_pct": 0.007
+    }
+  }
+}

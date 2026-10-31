@@ -1,0 +1,18 @@
+{
+  "parsed_files": 49,
+  "arithmetic_unchanged": true,
+  "protected_files_unchanged_against_main_and_starter": true,
+  "lint_problems": 0,
+  "baseline_lint_problems": 37,
+  "lint_exemptions": "Dependency torch.compile identity/delegation in wrapper and its tests; generated kernels are never credited",
+  "runtime_change": "Replace dependency source-file hashing with in-memory function/decorator identity and normal version metadata",
+  "baseline": "2e7df7b8abf89879b8825ea297afbbcbbaf363f7",
+  "official_document_url": "https://docs.google.com/document/d/1ws-AXhXpcx2pBBVSf5KO7GB5ZZEkBt3L2BPIuT4owWY/edit?tab=t.0",
+  "official_document_sha256": "8e3b11781021933c4f4ef097a50df393dc474d98160181eb4f640fab7874a98b",
+  "precompile_scope": "Thread in the measured soup process; no helper process, additional GPU or compiled cache reused between runs",
+  "submission_gaps": [
+    "Platform repository differs from authorized alikhan-kai/decentrathon destination",
+    "Public saved Kaggle notebook pinned to final commit must be delivered",
+    "Video and presentation are separate required hackathon artifacts outside this code-validation pass"
+  ]
+}
