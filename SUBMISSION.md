@@ -8,8 +8,8 @@
 - **Repository (hackathon platform):** [BAITC-Hacks/hack-d2097b50-localhost](https://github.com/BAITC-Hacks/hack-d2097b50-localhost)
 - **Final benchmarked runtime commit:** [`2e7df7b8abf89879b8825ea297afbbcbbaf363f7`](https://github.com/alikhan-kai/decentrathon/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7) ([hackathon commit link](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7))
 - **Public Kaggle notebook (`COMMIT` pinned to final SHA):** [decentrathon-soup-kernel-final](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost)
-- **Demo video (up to 3 minutes):** TODO(DEMO_VIDEO_URL)
-- **Presentation:** TODO(PRESENTATION_URL)
+- **Demo video (up to 3 minutes):** https://www.youtube.com/watch?v=6ddnPsiGywo
+- **Presentation:** https://canva.link/1wucfodjpuwqf72
 
 The Kaggle notebook URL and final benchmarked SHA match [README.md](README.md) and [README.ru.md](README.ru.md). Run **F** is the paired two-repeat (`--repeats 2`, ABBA) measurement of `2e7df7b8abf89879b8825ea297afbbcbbaf363f7` (`solution_sha256`: `7caf827d0fb87cc23400afb227f2efb17e21fcca5ebd94867732f71f0171285c`, `result_sha256`: `fbf7553e8ca4df347be80f567bf311e92cec21275c65270767cf2d7a89fc8585`); its [checks.json](docs/measurements/submission_fabc67d/checks.json) and full breakdown in [docs/EVIDENCE.md](docs/EVIDENCE.md) are tracked in Git, and `solution/` is byte-for-byte unchanged on HEAD.
 
@@ -79,8 +79,8 @@ Fast paths are specialized and guarded for Tesla T4 (`sm_75`), FP16 autocast and
 - **Репозиторий платформы хакатона:** [BAITC-Hacks/hack-d2097b50-localhost](https://github.com/BAITC-Hacks/hack-d2097b50-localhost)
 - **Финальный измеренный коммит кода:** [`2e7df7b8abf89879b8825ea297afbbcbbaf363f7`](https://github.com/alikhan-kai/decentrathon/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7) ([ссылка в репо хакатона](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7))
 - **Публичный ноутбук Kaggle (`COMMIT` закреплён на финальном SHA):** [decentrathon-soup-kernel-final](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost)
-- **Демо-видео (до 3 минут):** TODO(DEMO_VIDEO_URL)
-- **Презентация:** TODO(PRESENTATION_URL)
+- **Демо-видео (до 3 минут):** https://www.youtube.com/watch?v=6ddnPsiGywo
+- **Презентация:** https://canva.link/1wucfodjpuwqf72
 
 ### Наши кернелы
 
