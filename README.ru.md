@@ -1,12 +1,18 @@
 # Soup Kernel Challenge — Decentrathon 6.0 (Русская версия)
 
-[English](README.md) · [Сдача / Submission](SUBMISSION.md)
+[English](README.md) · [Сдача / Submission](SUBMISSION.md) · [Демо-видео](https://www.youtube.com/watch?v=6ddnPsiGywo) · [Презентация](https://canva.link/1wucfodjpuwqf72)
 
-![Speedup 1.6174×](https://img.shields.io/badge/speedup-1.6174%C3%97-blue) ![Memory 4.6803×](https://img.shields.io/badge/memory-4.6803%C3%97-blue) ![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen) ![Eval loss +0.010%](https://img.shields.io/badge/eval_loss-%E2%88%920.012%25-brightgreen)
+[![Speedup 1.6174×](https://img.shields.io/badge/speedup-1.6174%C3%97-blue)](https://github.com/alikhan-kai/decentrathon)
+[![Memory 4.6803×](https://img.shields.io/badge/memory-4.6803%C3%97-blue)](https://github.com/alikhan-kai/decentrathon)
+[![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen)](https://github.com/alikhan-kai/decentrathon)
+[![Eval loss +0.010%](https://img.shields.io/badge/eval_loss-%2B0.010%25-brightgreen)](https://github.com/alikhan-kai/decentrathon)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Демо_Видео-red?logo=youtube)](https://www.youtube.com/watch?v=6ddnPsiGywo)
+[![Canva Slides](https://img.shields.io/badge/Canva-Презентация-00C4CC?logo=canva)](https://canva.link/1wucfodjpuwqf72)
+[![Open in Kaggle](https://img.shields.io/badge/Kaggle-Ноутбук-20BEFF?logo=kaggle)](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost)
 
 [<kbd>Открыть в Kaggle</kbd>](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost) · Финальный коммит: [`2e7df7b8abf89879b8825ea297afbbcbbaf363f7`](https://github.com/alikhan-kai/decentrathon/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7) ([зеркало хакатона](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7))
 
-Собственные Triton-кернелы, упаковка токенов без padding внутри батча, нативный `FP16`-конвейер в attention/MLP и сжатие без потерь связанной матрицы эмбеддингов/головы ускоряют обучение LoRA для `Qwen2.5-1.5B-Instruct` в **1.59×** и снижают пик видеопамяти в **4.37×** (`14 345 MiB -> 3 065 MiB`). Фиксированная задача сохранена полностью: `soup-cli 0.77.0`, 4-bit NF4 с двойным квантованием, LoRA ранга 16 (`q_proj`, `v_proj`), dropout `0.05`, 256 казахских инструкций, батч 4, `max_length=512`, 1 эпоха (64 шага) на одной GPU Kaggle Tesla T4. **Финальный замер сдаваемого кода F — публичные строки, seed 1, `--repeats 2` (ABBA)** <a id="результаты"></a>
+Собственные Triton-кернелы, упаковка токенов без padding внутри батча, нативный `FP16`-конвейер в attention/MLP и сжатие без потерь связанной матрицы эмбеддингов/головы ускоряют обучение LoRA для `Qwen2.5-1.5B-Instruct` в **1.62×** (`84.7 с -> 52.4 с`) и снижают пик видеопамяти в **4.68×** (`14 345 MiB -> 3 065 MiB`). Фиксированная задача сохранена полностью: `soup-cli 0.77.0`, 4-bit NF4 с двойным квантованием, LoRA ранга 16 (`q_proj`, `v_proj`), dropout `0.05`, 256 казахских инструкций, батч 4, `max_length=512`, 1 эпоха (64 шага) на одной GPU Kaggle Tesla T4. **Финальный замер сдаваемого кода F — публичные строки, seed 1, `--repeats 2` (ABBA)** <a id="результаты"></a>
 
 | Показатель | База Soup | Наше решение | Сравнение |
 |---|---:|---:|---|

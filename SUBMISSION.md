@@ -1,4 +1,4 @@
-# Submission / Сдача: localhost (TODO: confirm official team name)
+# Submission / Сдача: localhost
 
 ## English
 
@@ -56,7 +56,7 @@ Ideas taken from other kernels / references (all Triton kernels above were writt
 - [x] All 10 checks of `harness/check_rules.py` passed (`2 base + 2 solution` runs, 79 Soup regression tests passed in `0.49s`).
 - [x] `README.md` (and `README.ru.md`) rewritten for our solution: what we did, how to run it, results and limitations.
 - [x] `submission/kaggle_notebook.ipynb` updated with `COMMIT = "2e7df7b8abf89879b8825ea297afbbcbbaf363f7"` and `--repeats 2`.
-- [ ] Verify public Kaggle saved-version URL (`?scriptVersionId=...`) after final **Save & Run All** and fill remaining `TODO(...)` fields (captain contact, video, presentation).
+- [x] Verified public Kaggle notebook link, demo video and Canva presentation attached.
 
 ### Presentation covers
 

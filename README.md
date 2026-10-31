@@ -1,12 +1,18 @@
 # Soup Kernel Challenge — Decentrathon 6.0
 
-[Русский](README.ru.md) · [Submission](SUBMISSION.md)
+[Русский](README.ru.md) · [Submission](SUBMISSION.md) · [Demo Video](https://www.youtube.com/watch?v=6ddnPsiGywo) · [Presentation](https://canva.link/1wucfodjpuwqf72)
 
-![Speedup 1.6174×](https://img.shields.io/badge/speedup-1.6174%C3%97-blue) ![Memory 4.6803×](https://img.shields.io/badge/memory-4.6803%C3%97-blue) ![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen) ![Eval loss +0.010%](https://img.shields.io/badge/eval_loss-%E2%88%920.012%25-brightgreen)
+[![Speedup 1.6174×](https://img.shields.io/badge/speedup-1.6174%C3%97-blue)](https://github.com/alikhan-kai/decentrathon)
+[![Memory 4.6803×](https://img.shields.io/badge/memory-4.6803%C3%97-blue)](https://github.com/alikhan-kai/decentrathon)
+[![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen)](https://github.com/alikhan-kai/decentrathon)
+[![Eval loss +0.010%](https://img.shields.io/badge/eval_loss-%2B0.010%25-brightgreen)](https://github.com/alikhan-kai/decentrathon)
+[![YouTube Demo](https://img.shields.io/badge/YouTube-Demo_Video-red?logo=youtube)](https://www.youtube.com/watch?v=6ddnPsiGywo)
+[![Canva Slides](https://img.shields.io/badge/Canva-Presentation-00C4CC?logo=canva)](https://canva.link/1wucfodjpuwqf72)
+[![Open in Kaggle](https://img.shields.io/badge/Kaggle-Notebook-20BEFF?logo=kaggle)](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost)
 
 [<kbd>Open in Kaggle</kbd>](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost) · Final commit: [`2e7df7b8abf89879b8825ea297afbbcbbaf363f7`](https://github.com/alikhan-kai/decentrathon/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7) ([hackathon mirror](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7))
 
-Custom Triton kernels, padding-free per-batch execution, native FP16 attention/MLP activation paths and lossless tied-weight compaction accelerate Qwen2.5-1.5B-Instruct LoRA training while cutting peak VRAM by **4.37×** (`14 345 MiB -> 3 065 MiB`). The fixed task uses Soup 0.77.0, 4-bit NF4 double-quantized weights, LoRA rank 16 (`q_proj`, `v_proj`), 256 Kazakh instruction examples, batch size 4, maximum length 512 and one epoch of 64 steps on a single Kaggle Tesla T4. LoRA targets, dropout, optimizer, schedule and output metrics are preserved. **Final submission-source run F — public rows, seed 1, `--repeats 2` (ABBA)** <a id="results"></a><a id="результаты"></a>
+Custom Triton kernels, padding-free per-batch execution, native FP16 attention/MLP activation paths and lossless tied-weight compaction accelerate Qwen2.5-1.5B-Instruct LoRA training while cutting peak VRAM by **4.68×** (`14 345 MiB -> 3 065 MiB`) and accelerating training speed by **1.62×** (`84.7 s -> 52.4 s`). The fixed task uses Soup 0.77.0, 4-bit NF4 double-quantized weights, LoRA rank 16 (`q_proj`, `v_proj`), 256 Kazakh instruction examples, batch size 4, maximum length 512 and one epoch of 64 steps on a single Kaggle Tesla T4. LoRA targets, dropout, optimizer, schedule and output metrics are preserved. **Final submission-source run F — public rows, seed 1, `--repeats 2` (ABBA)** <a id="results"></a><a id="результаты"></a>
 
 | Measurement | Base Soup | Solution | Comparison |
 |---|---:|---:|---|
