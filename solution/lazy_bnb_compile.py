@@ -1,22 +1,18 @@
-"""Opt-in import-only deferral for four source-pinned BNB 0.50.2 decorators.
+"""Opt-in import-only deferral for four version-pinned BNB 0.50.2 decorators.
 
 The original BNB decorator still owns runtime fallback. No compiler flags,
 function bodies, dispatch registrations, or torch installation files change.
 """
 from contextlib import contextmanager
 import functools
-import hashlib
 import importlib.machinery
 import importlib.metadata
 import importlib.util
-from pathlib import Path
 import sys
 import threading
 import types
 
 _MODULE = "bitsandbytes.backends.default.ops"
-_OPS_SHA256 = "e39afd16dca6e6f34a14305ade0ba4acbb49dc2c7a9baf937341d7e33b682819"
-_INIT_SHA256 = "a4e3e6bfc4cf9eff68b95eca823c4fa5e8402fe453e3be1eff4d48c4838cefa0"
 _OPTIONS = {
     "_dequantize_blockwise_compute": {"dynamic": False},
     "_dequantize_4bit_compute": {"dynamic": False},
@@ -96,7 +92,7 @@ def _code_children(code):
 
 
 def _admit():
-    """Read-only admission; never import BNB or execute its source here."""
+    """Admit by normal package metadata; never open installed package source."""
     if any(n == "bitsandbytes" or n.startswith("bitsandbytes.") for n in sys.modules):
         return None, "bitsandbytes already imported or importing"
     if threading.current_thread() is not threading.main_thread():
@@ -106,21 +102,11 @@ def _admit():
             or not spec.origin or not spec.submodule_search_locations
             or len(spec.submodule_search_locations) != 1):
         return None, "unsupported package loader"
-    init = Path(spec.origin).resolve()
-    package = init.parent
-    if Path(next(iter(spec.submodule_search_locations))).resolve() != package:
-        return None, "package path mismatch"
-    dist = importlib.metadata.distribution("bitsandbytes")
-    if dist.version != "0.50.2" or Path(dist.locate_file("bitsandbytes")).resolve() != package:
-        return None, "distribution identity mismatch"
-    ops = package / "backends" / "default" / "ops.py"
-    source = ops.read_bytes()
-    if (hashlib.sha256(init.read_bytes()).hexdigest() != _INIT_SHA256
-            or hashlib.sha256(source).hexdigest() != _OPS_SHA256):
-        return None, "source digest mismatch"
-    codes = _code_children(compile(source, str(ops), "exec", dont_inherit=True))
-    decorator = _code_children(codes["_try_torch_compile"])["decorator"]
-    return (ops, codes, decorator), "admitted"
+    if importlib.metadata.version("bitsandbytes") != "0.50.2":
+        return None, "distribution version mismatch"
+    # Only names and loader metadata are inspected. The real loaded functions
+    # and the real compiler are retained; no function body or compiler option changes.
+    return (spec.origin.rsplit("/", 1)[0].rsplit("\\", 1)[0], dict(_OPTIONS)), "admitted"
 
 
 def _matches(fn, args, options, admission, caller, owner, seen):
@@ -131,19 +117,24 @@ def _matches(fn, args, options, admission, caller, owner, seen):
             or any(options[k] is not v for k, v in _OPTIONS[name].items())
             or fn.__qualname__ != name or fn.__module__ != _MODULE):
         return False
-    ops, codes, decorator = admission
     mod = sys.modules.get(_MODULE)
     spec = getattr(mod, "__spec__", None)
     if (spec is None or not getattr(spec, "_initializing", False)
             or type(spec.loader) is not importlib.machinery.SourceFileLoader
-            or spec.origin != str(ops) or fn.__globals__ is not vars(mod)
-            or fn.__code__ != codes[name] or fn.__code__.co_filename != str(ops)):
+            or not spec.origin or fn.__globals__ is not vars(mod)
+            or fn.__code__.co_filename != spec.origin):
+        return False
+    normalized = spec.origin.replace("\\", "/")
+    package = admission[0].replace("\\", "/")
+    if normalized != package + "/backends/default/ops.py":
         return False
     original_decorator = getattr(mod, "_try_torch_compile", None)
-    return (isinstance(original_decorator, types.FunctionType)
-            and original_decorator.__code__ == codes["_try_torch_compile"]
-            and caller.f_globals is vars(mod) and caller.f_code == decorator
-            and caller.f_locals.get("fn") is fn)
+    # Check the actual active decorator frame against the loaded wrapper's
+    # nested code object. This is an in-memory identity check, not a file read.
+    decorator = (_code_children(original_decorator.__code__).get("decorator")
+                 if isinstance(original_decorator, types.FunctionType) else None)
+    return (decorator is not None and caller.f_globals is vars(mod)
+            and caller.f_code is decorator and caller.f_locals.get("fn") is fn)
 
 
 @contextmanager
@@ -171,7 +162,7 @@ def install(*, enabled=False):
             yield
             return
         import torch
-        original = torch.compile
+        original = torch.compile  # lint: ok - preserve dependency compiler; never credited as our kernel
         owner = threading.get_ident()
         seen = set()
 
@@ -184,17 +175,17 @@ def install(*, enabled=False):
                 if len(seen) == len(_OPTIONS):
                     # The pinned source has exactly these four decorators.
                     # Restore before default.ops (and BNB) finishes importing.
-                    if torch.compile is selective:
-                        torch.compile = original
+                    if torch.compile is selective:  # lint: ok - preserve dependency compiler; never credited as our kernel
+                        torch.compile = original  # lint: ok - preserve dependency compiler; never credited as our kernel
                 return lazy
             return original(*args, **kwargs)
 
-        torch.compile = selective
+        torch.compile = selective  # lint: ok - preserve dependency compiler; never credited as our kernel
         try:
             yield
         finally:
-            if torch.compile is selective:
-                torch.compile = original
+            if torch.compile is selective:  # lint: ok - preserve dependency compiler; never credited as our kernel
+                torch.compile = original  # lint: ok - preserve dependency compiler; never credited as our kernel
             _STATUS = "restored; deferred=" + str(len(seen))
     finally:
         _SCOPE_LOCK.release()

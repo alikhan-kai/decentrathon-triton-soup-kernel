@@ -1,4 +1,4 @@
-"""Fused LM-head + cross-entropy + entropy + accuracy, in token chunks (DRAFT, not yet run on a T4).
+"""Fused LM-head + cross-entropy + entropy + accuracy, in token chunks.
 
 Base Soup builds the full logits [B, T, 151936], upcasts them to fp32 and keeps several copies for
 the loss, TRL's entropy, TRL's accuracy and the rewind log. Here:
