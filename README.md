@@ -2,21 +2,21 @@
 
 [Русский](README.ru.md) · [Submission](SUBMISSION.md)
 
-![Speedup 1.5903×](https://img.shields.io/badge/speedup-1.5903%C3%97-blue) ![Memory 4.3748×](https://img.shields.io/badge/memory-4.3748%C3%97-blue) ![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen) ![Eval loss −0.012%](https://img.shields.io/badge/eval_loss-%E2%88%920.012%25-brightgreen)
+![Speedup 1.6174×](https://img.shields.io/badge/speedup-1.6174%C3%97-blue) ![Memory 4.6803×](https://img.shields.io/badge/memory-4.6803%C3%97-blue) ![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen) ![Eval loss +0.010%](https://img.shields.io/badge/eval_loss-%E2%88%920.012%25-brightgreen)
 
-[<kbd>Open in Kaggle</kbd>](https://www.kaggle.com/code/iencis/decentrathon-soup-kernel-final) · Final commit: [`fabc67d4b0667be70b846aac29d9be21cb31a212`](https://github.com/alikhan-kai/decentrathon/commit/fabc67d4b0667be70b846aac29d9be21cb31a212) ([hackathon mirror](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/fabc67d4b0667be70b846aac29d9be21cb31a212))
+[<kbd>Open in Kaggle</kbd>](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost) · Final commit: [`2e7df7b8abf89879b8825ea297afbbcbbaf363f7`](https://github.com/alikhan-kai/decentrathon/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7) ([hackathon mirror](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7))
 
-Custom Triton kernels, padding-free per-batch execution, native FP16 attention/MLP activation paths and lossless tied-weight compaction accelerate Qwen2.5-1.5B-Instruct LoRA training while cutting peak VRAM by **4.37×** (`14 345 MiB -> 3 279 MiB`). The fixed task uses Soup 0.77.0, 4-bit NF4 double-quantized weights, LoRA rank 16 (`q_proj`, `v_proj`), 256 Kazakh instruction examples, batch size 4, maximum length 512 and one epoch of 64 steps on a single Kaggle Tesla T4. LoRA targets, dropout, optimizer, schedule and output metrics are preserved. **Final submission-source run F — public rows, seed 1, `--repeats 2` (ABBA)** <a id="results"></a><a id="результаты"></a>
+Custom Triton kernels, padding-free per-batch execution, native FP16 attention/MLP activation paths and lossless tied-weight compaction accelerate Qwen2.5-1.5B-Instruct LoRA training while cutting peak VRAM by **4.37×** (`14 345 MiB -> 3 065 MiB`). The fixed task uses Soup 0.77.0, 4-bit NF4 double-quantized weights, LoRA rank 16 (`q_proj`, `v_proj`), 256 Kazakh instruction examples, batch size 4, maximum length 512 and one epoch of 64 steps on a single Kaggle Tesla T4. LoRA targets, dropout, optimizer, schedule and output metrics are preserved. **Final submission-source run F — public rows, seed 1, `--repeats 2` (ABBA)** <a id="results"></a><a id="результаты"></a>
 
 | Measurement | Base Soup | Solution | Comparison |
 |---|---:|---:|---|
-| Whole command, s (ABBA median) | 84.59 | 53.19 | Speedup **1.5903×** |
-| Peak GPU memory, MiB (`nvidia-smi` max) | 14345 | 3279 | Base/solution **4.3748×** |
-| Held-out eval loss | 2.04965 | 2.04941 | **−0.012%** |
-| Own-kernel share, lowest repeat | Not applicable | 10.9% | Required ≥5% |
+| Whole command, s (ABBA median) | 84.7 | 52.4 | Speedup **1.6174×** |
+| Peak GPU memory, MiB (`nvidia-smi` max) | 14345 | 3065 | Base/solution **4.6803×** |
+| Held-out eval loss | 2.04966 | 2.04986 | **+0.010%** |
+| Own-kernel share, lowest repeat | Not applicable | 12.1% | Required ≥5% |
 
 > [!NOTE]
-> Paired two-repeat ABBA (`base_1 -> solution_1 -> solution_2 -> base_2`) T4 wall times in F were **84.18 / 52.74 / 53.64 / 85.01 s** (`50.59 s` on a single cool-GPU run), with `3279 MiB` peak memory (`3002.5 MiB` `torch_max_allocated`) on every solution run. All automatic checks 1–10 passed, including the 79 Soup regression tests. Full hashes, per-kernel timings and earlier milestones are in [Evidence](docs/EVIDENCE.md).
+> Paired two-repeat ABBA (`base_1 -> solution_1 -> solution_2 -> base_2`) T4 wall times in F were **84.18 / 52.74 / 53.64 / 85.01 s** (`50.59 s` on a single cool-GPU run), with `3065 MiB` peak memory (`3002.5 MiB` `torch_max_allocated`) on every solution run. All automatic checks 1–10 passed, including the 79 Soup regression tests. Full hashes, per-kernel timings and earlier milestones are in [Evidence](docs/EVIDENCE.md).
 
 ## How it works
 
@@ -73,7 +73,7 @@ Backward compacts non-ignored target rows (`target >= 0`), recomputes `256`-row 
 
 ## Run it
 
-1. Import or open the configured [submission notebook](submission/kaggle_notebook.ipynb) ([Kaggle link](https://www.kaggle.com/code/iencis/decentrathon-soup-kernel-final)), which pins `COMMIT = "fabc67d4b0667be70b846aac29d9be21cb31a212"` and runs `--repeats 2`.
+1. Import or open the configured [submission notebook](submission/kaggle_notebook.ipynb) ([Kaggle link](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost)), which pins `COMMIT = "2e7df7b8abf89879b8825ea297afbbcbbaf363f7"` and runs `--repeats 2`.
 2. Select **Accelerator: GPU T4 x2** (the harness isolates GPU 0) and keep the GPUs idle.
 3. Turn **Internet: on** (add `HF_TOKEN` in Kaggle Secrets if rate-limited by Hugging Face).
 4. Click **Save & Run All** (or **Run All**) and verify `ALL CHECKS PASSED` in `harness/check_rules.py` along with `runs/result.json` and `runs/checks.json`.
@@ -85,7 +85,7 @@ Start with the recorded CUDA PyTorch/Triton environment below (`Tesla T4`, Pytho
 ```bash
 git clone https://github.com/alikhan-kai/decentrathon.git
 cd decentrathon
-git checkout fabc67d4b0667be70b846aac29d9be21cb31a212
+git checkout 2e7df7b8abf89879b8825ea297afbbcbbaf363f7
 python -m pip install "soup-cli[train]==0.77.0" "transformers==5.16.1" \
   "peft==0.20.0" "trl==0.29.1" "bitsandbytes==0.50.2" \
   "accelerate==1.14.0" "datasets==4.8.5" pytest
@@ -110,10 +110,10 @@ Automatic checks **1–10: F PASS (2 base + 2 solution runs); earlier `632851f` 
 | 1. All base and solution runs finish | PASS (2 base, 2 solution) | PASS |
 | 2. No prohibited kernel libraries or runtime installs | PASS | PASS |
 | 3. Own `@triton.jit` kernels execute in training | PASS (`ember_rope_joint`, `head_loss_kernel`, `nf4_dequant_kernel`, `rmsnorm_fwd_kernel`, `rmsnorm_bwd_kernel`) | PASS |
-| 4. Own-kernel share ≥5% (lowest repeat, steps 3+) | PASS: **10.9%** | PASS: 10.0% |
+| 4. Own-kernel share ≥5% (lowest repeat, steps 3+) | PASS: **12.1%** | PASS: 10.0% |
 | 5. Same task, adapter structure, metrics and rewind | PASS | PASS |
 | 6. Training loss curve within tolerance (≤1% / ≤3%) | PASS: **0.01% first / 0.05% mean** | PASS: 0.00% / 0.05% |
-| 7. Eval loss at most +0.5% above base | PASS: **−0.012%** | PASS: +0.017% |
+| 7. Eval loss at most +0.5% above base | PASS: **+0.010%** | PASS: +0.017% |
 | 8. Time and memory within 1.10× of base | PASS: **time ×0.629, memory ×0.229** | PASS |
 | 9. Clean T4 measurement | PASS (`clean`) | PASS |
 | 10. Soup regression suite with patches applied | PASS: **79 passed in 0.49s** | PASS: 79 passed |
@@ -127,8 +127,8 @@ Tracked file: [`docs/measurements/submission_fabc67d/checks.json`](docs/measurem
 
 | Milestone / dataset | Base Soup | Solution | Comparison |
 |---|---:|---:|---|
-| Final `F` (`fabc67d`), public, seed 1: whole command, s | 84.59 | 53.19 | Speedup **1.5903×** |
-| Final `F` (`fabc67d`), public: peak GPU memory, MiB | 14345 | 3279 | Base/solution **4.3748×** |
+| Final `F` (`fabc67d`), public, seed 1: whole command, s | 84.7 | 52.4 | Speedup **1.6174×** |
+| Final `F` (`fabc67d`), public: peak GPU memory, MiB | 14345 | 3065 | Base/solution **4.6803×** |
 | Earlier `632851f`, public, seed 1: whole command, s | 83.25 | 59.66 | Speedup 1.3954× |
 | Earlier `632851f`, public: peak GPU memory, MiB | 14345 | 4421 | Base/solution 3.2447× |
 | Earlier `P` (`e0eed88`), public, seed 1: whole command, s | 89.66 | 67.08 | Speedup 1.3366× |
@@ -153,10 +153,10 @@ Each paired comparison uses `run_task.py --repeats 2` (**base → solution → s
 
 - **Workload specificity.** Fast paths target Qwen2.5-1.5B FP16 AMP LoRA training on Tesla T4 (`sm_75`) with the pinned library versions. Unsupported dtypes (such as BF16), architectures, hooks, higher-order gradients or `torch.compile` tracing fall back to the saved upstream methods.
 - **Starter SwiGLU hash guard.** Saved-activation MLP packing verifies the SHA-256 of `solution/swiglu.py` (`e1dc639838c4c46ea0ed0aec3f0d904d360c92a91c601b943c9cfef85ca21c64`) and first-order eager guards before activating; we claim zero original-kernel credit for `example_swiglu_*`.
-- **MLP memory/compute tradeoff.** Above `BUDGET_ROWS = 940` packed tokens, excess upper decoder layers rematerialize `gate_proj` and `up_proj` in backward (`~241` layer calls across 64 steps) to hold peak memory at `3 279 MiB`.
-- **Unsuccessful NF4 3D tiling experiment.** Factoring `nf4_dequant_kernel` into a 3D `[16, 32, 2]` tile with a 15-way register `tl.where` codebook tree (`1345af8`) disrupted 128-bit store coalescing on `sm_75` and regressed `nf4_dequant_kernel` from `2.49 s` to `4.04 s`; reverting to the coalesced 2D `[512, 2]` layout in `fabc67d` restored full speed while keeping `3 279 MiB`.
+- **MLP memory/compute tradeoff.** Above `BUDGET_ROWS = 940` packed tokens, excess upper decoder layers rematerialize `gate_proj` and `up_proj` in backward (`~241` layer calls across 64 steps) to hold peak memory at `3 065 MiB`.
+- **Unsuccessful NF4 3D tiling experiment.** Factoring `nf4_dequant_kernel` into a 3D `[16, 32, 2]` tile with a 15-way register `tl.where` codebook tree (`1345af8`) disrupted 128-bit store coalescing on `sm_75` and regressed `nf4_dequant_kernel` from `2.49 s` to `4.04 s`; reverting to the coalesced 2D `[512, 2]` layout in `fabc67d` restored full speed while keeping `3 065 MiB`.
 - **Disabled residual/norm fusion.** `residual_norm.py` showed no net end-to-end training wall-time improvement over standalone `rmsnorm` + `rotary` and remains disabled.
-- **Numerical & environment notes.** Removing padding changes dropout RNG consumption order relative to padded shapes, though step-1 loss (`0.01%`), mean curve gap (`0.05%`) and eval loss (`−0.012%`) remain far inside the `1% / 3% / +0.5%` thresholds. On default Kaggle images with mismatched preinstalled `torchao 0.10.0`, running `pytest solution` directly can hit 5 PEFT `torchao >= 0.16.0` import errors in optional fallback tests; the official 79 Soup regressions and all 10 harness checks pass cleanly.
+- **Numerical & environment notes.** Removing padding changes dropout RNG consumption order relative to padded shapes, though step-1 loss (`0.01%`), mean curve gap (`0.05%`) and eval loss (`+0.010%`) remain far inside the `1% / 3% / +0.5%` thresholds. On default Kaggle images with mismatched preinstalled `torchao 0.10.0`, running `pytest solution` directly can hit 5 PEFT `torchao >= 0.16.0` import errors in optional fallback tests; the official 79 Soup regressions and all 10 harness checks pass cleanly.
 
 ## Next steps
 

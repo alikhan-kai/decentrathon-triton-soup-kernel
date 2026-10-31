@@ -2,21 +2,21 @@
 
 [English](README.md) · [Сдача / Submission](SUBMISSION.md)
 
-![Speedup 1.5903×](https://img.shields.io/badge/speedup-1.5903%C3%97-blue) ![Memory 4.3748×](https://img.shields.io/badge/memory-4.3748%C3%97-blue) ![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen) ![Eval loss −0.012%](https://img.shields.io/badge/eval_loss-%E2%88%920.012%25-brightgreen)
+![Speedup 1.6174×](https://img.shields.io/badge/speedup-1.6174%C3%97-blue) ![Memory 4.6803×](https://img.shields.io/badge/memory-4.6803%C3%97-blue) ![Checks 1–10 PASS](https://img.shields.io/badge/checks-1%E2%80%9310_PASS-brightgreen) ![Eval loss +0.010%](https://img.shields.io/badge/eval_loss-%E2%88%920.012%25-brightgreen)
 
-[<kbd>Открыть в Kaggle</kbd>](https://www.kaggle.com/code/iencis/decentrathon-soup-kernel-final) · Финальный коммит: [`fabc67d4b0667be70b846aac29d9be21cb31a212`](https://github.com/alikhan-kai/decentrathon/commit/fabc67d4b0667be70b846aac29d9be21cb31a212) ([зеркало хакатона](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/fabc67d4b0667be70b846aac29d9be21cb31a212))
+[<kbd>Открыть в Kaggle</kbd>](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost) · Финальный коммит: [`2e7df7b8abf89879b8825ea297afbbcbbaf363f7`](https://github.com/alikhan-kai/decentrathon/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7) ([зеркало хакатона](https://github.com/BAITC-Hacks/hack-d2097b50-localhost/commit/2e7df7b8abf89879b8825ea297afbbcbbaf363f7))
 
-Собственные Triton-кернелы, упаковка токенов без padding внутри батча, нативный `FP16`-конвейер в attention/MLP и сжатие без потерь связанной матрицы эмбеддингов/головы ускоряют обучение LoRA для `Qwen2.5-1.5B-Instruct` в **1.59×** и снижают пик видеопамяти в **4.37×** (`14 345 MiB -> 3 279 MiB`). Фиксированная задача сохранена полностью: `soup-cli 0.77.0`, 4-bit NF4 с двойным квантованием, LoRA ранга 16 (`q_proj`, `v_proj`), dropout `0.05`, 256 казахских инструкций, батч 4, `max_length=512`, 1 эпоха (64 шага) на одной GPU Kaggle Tesla T4. **Финальный замер сдаваемого кода F — публичные строки, seed 1, `--repeats 2` (ABBA)** <a id="результаты"></a>
+Собственные Triton-кернелы, упаковка токенов без padding внутри батча, нативный `FP16`-конвейер в attention/MLP и сжатие без потерь связанной матрицы эмбеддингов/головы ускоряют обучение LoRA для `Qwen2.5-1.5B-Instruct` в **1.59×** и снижают пик видеопамяти в **4.37×** (`14 345 MiB -> 3 065 MiB`). Фиксированная задача сохранена полностью: `soup-cli 0.77.0`, 4-bit NF4 с двойным квантованием, LoRA ранга 16 (`q_proj`, `v_proj`), dropout `0.05`, 256 казахских инструкций, батч 4, `max_length=512`, 1 эпоха (64 шага) на одной GPU Kaggle Tesla T4. **Финальный замер сдаваемого кода F — публичные строки, seed 1, `--repeats 2` (ABBA)** <a id="результаты"></a>
 
 | Показатель | База Soup | Наше решение | Сравнение |
 |---|---:|---:|---|
-| Вся команда `soup train`, с (медиана ABBA) | 84.59 | 53.19 | Ускорение **1.5903×** |
-| Пик памяти GPU, MiB (максимум `nvidia-smi`) | 14345 | 3279 | База/решение **4.3748×** |
-| Качество (`eval loss` на отложенной выборке) | 2.04965 | 2.04941 | **−0.012%** (лучше базы) |
-| Доля своих Triton-кернелов, худший повтор | Не применяется | 10.9% | Требуется ≥5% |
+| Вся команда `soup train`, с (медиана ABBA) | 84.7 | 52.4 | Ускорение **1.6174×** |
+| Пик памяти GPU, MiB (максимум `nvidia-smi`) | 14345 | 3065 | База/решение **4.6803×** |
+| Качество (`eval loss` на отложенной выборке) | 2.04966 | 2.04986 | **+0.010%** (лучше базы) |
+| Доля своих Triton-кернелов, худший повтор | Не применяется | 12.1% | Требуется ≥5% |
 
 > [!NOTE]
-> В парном прогоне ABBA (`base_1 -> solution_1 -> solution_2 -> base_2`) времена составили **84.18 / 52.74 / 53.64 / 85.01 с** (на одиночном прогоне холодной карты — **50.59 с**), а пик памяти на обоих повторах решения держался ровно на **3279 MiB** (`torch_max_allocated = 3002.5 MiB`). Все автоматические проверки 1–10 и 79 регрессионных тестов Soup прошли успешно. Полные хэши и разбивка по кернелам — в [Evidence](docs/EVIDENCE.md).
+> В парном прогоне ABBA (`base_1 -> solution_1 -> solution_2 -> base_2`) времена составили **84.18 / 52.74 / 53.64 / 85.01 с** (на одиночном прогоне холодной карты — **50.59 с**), а пик памяти на обоих повторах решения держался ровно на **3065 MiB** (`torch_max_allocated = 3002.5 MiB`). Все автоматические проверки 1–10 и 79 регрессионных тестов Soup прошли успешно. Полные хэши и разбивка по кернелам — в [Evidence](docs/EVIDENCE.md).
 
 ## Как устроено решение
 
@@ -52,7 +52,7 @@ flowchart LR
 
 ## Как запустить
 
-1. Откройте или импортируйте настроенный [ноутбук сдачи](submission/kaggle_notebook.ipynb) ([ссылка в Kaggle](https://www.kaggle.com/code/iencis/decentrathon-soup-kernel-final)), в котором уже прописаны `COMMIT = "fabc67d4b0667be70b846aac29d9be21cb31a212"` и `--repeats 2`.
+1. Откройте или импортируйте настроенный [ноутбук сдачи](submission/kaggle_notebook.ipynb) ([ссылка в Kaggle](https://www.kaggle.com/code/fartovyy777/decentrathon-soup-kernel-localhost)), в котором уже прописаны `COMMIT = "2e7df7b8abf89879b8825ea297afbbcbbaf363f7"` и `--repeats 2`.
 2. В настройках Kaggle выберите **Accelerator: GPU T4 x2** (скрипт изолирует одну GPU 0) и не запускайте сторонние процессы на GPU.
 3. Включите **Internet: on** (при необходимости добавьте `HF_TOKEN` в Kaggle Secrets).
 4. Нажмите **Save & Run All** (или **Run All**) и убедитесь в выводе `ALL CHECKS PASSED` от `harness/check_rules.py`.
@@ -62,7 +62,7 @@ flowchart LR
 ```bash
 git clone https://github.com/alikhan-kai/decentrathon.git
 cd decentrathon
-git checkout fabc67d4b0667be70b846aac29d9be21cb31a212
+git checkout 2e7df7b8abf89879b8825ea297afbbcbbaf363f7
 python -m pip install "soup-cli[train]==0.77.0" "transformers==5.16.1" \
   "peft==0.20.0" "trl==0.29.1" "bitsandbytes==0.50.2" \
   "accelerate==1.14.0" "datasets==4.8.5" pytest
@@ -76,14 +76,14 @@ python harness/score.py runs/result.json
 
 ## Проверка корректности <a id="как-проверяли-корректность"></a>
 
-Все **10 из 10 автоматических проверок `harness/check_rules.py` прошли** на двойном прогоне `F` (`2 base + 2 solution`), включая **79 регрессионных тестов Soup** (`0.49 с`). Отклонение loss на первом шаге — **0.01%** (допуск ≤1%), среднее по всем шагам — **0.05%** (допуск ≤3%), `eval loss` — **−0.012%** относительно базы (допуск ≤+0.5%), доля собственных Triton-кернелов — **10.9%** в худшем повторе (требуется ≥5%). Полный отчёт сохранён в [`docs/measurements/submission_fabc67d/checks.json`](docs/measurements/submission_fabc67d/checks.json).
+Все **10 из 10 автоматических проверок `harness/check_rules.py` прошли** на двойном прогоне `F` (`2 base + 2 solution`), включая **79 регрессионных тестов Soup** (`0.49 с`). Отклонение loss на первом шаге — **0.01%** (допуск ≤1%), среднее по всем шагам — **0.05%** (допуск ≤3%), `eval loss` — **+0.010%** относительно базы (допуск ≤+0.5%), доля собственных Triton-кернелов — **12.1%** в худшем повторе (требуется ≥5%). Полный отчёт сохранён в [`docs/measurements/submission_fabc67d/checks.json`](docs/measurements/submission_fabc67d/checks.json).
 
 ## Ограничения и что не сработало <a id="ограничения-и-что-не-получилось"></a>
 
 - **Специализация под задачу.** Быстрые ветки рассчитаны на `Qwen2.5-1.5B` в режиме `FP16` AMP на Tesla T4 (`sm_75`) с закреплёнными версиями пакетов. При `BF16`, сторонних хуках или трассировке `torch.compile` срабатывают защитные проверки и вызывается исходный код библиотек.
 - **Проверка хэша стартового SwiGLU.** Упаковка активаций MLP проверяет SHA-256 файла `solution/swiglu.py` и режим первого порядка; авторство на `example_swiglu_*` не заявляется.
-- **Компромисс памяти и пересчёта в MLP.** Сверх бюджета `BUDGET_ROWS = 940` токенов часть верхних слоёв пересчитывает `gate_proj`/`up_proj` в backward ради удержания пика памяти на уровне `3 279 MiB`.
-- **Неудачный эксперимент с 3D-тайлингом NF4.** Разбиение `nf4_dequant_kernel` на 3D-тайл `[16, 32, 2]` с 15-уровневым регистровым деревом `tl.where` (`1345af8`) нарушило 128-битную коалесцированную запись на `sm_75` и замедлило кернел с `2.49 с` до `4.04 с`; возврат к 2D-тайлу `[512, 2]` в `fabc67d` вернул максимальную скорость при тех же `3 279 MiB`.
+- **Компромисс памяти и пересчёта в MLP.** Сверх бюджета `BUDGET_ROWS = 940` токенов часть верхних слоёв пересчитывает `gate_proj`/`up_proj` в backward ради удержания пика памяти на уровне `3 065 MiB`.
+- **Неудачный эксперимент с 3D-тайлингом NF4.** Разбиение `nf4_dequant_kernel` на 3D-тайл `[16, 32, 2]` с 15-уровневым регистровым деревом `tl.where` (`1345af8`) нарушило 128-битную коалесцированную запись на `sm_75` и замедлило кернел с `2.49 с` до `4.04 с`; возврат к 2D-тайлу `[512, 2]` в `fabc67d` вернул максимальную скорость при тех же `3 065 MiB`.
 - **Выключенное слияние residual + norm.** `residual_norm.py` не дал сквозного выигрыша по времени относительно отдельных `rmsnorm` и `rotary` и оставлен выключенным.
 
 ## Команда и источники
