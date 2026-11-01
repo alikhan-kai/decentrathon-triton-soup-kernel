@@ -4,17 +4,25 @@ Same lossless-save hypothesis as packed saves; no original kernel credit.
 No installer, registry entry, class patch, or broad public activation API.
 """
 import torch
+from .bnb_provenance import canonical_bnb
 
 ENABLED = False
 PINNED_BNB = "0.50.2"
 
 
 def _validate_versions():
-    """Reason string if the installed bitsandbytes is not the pinned one, else None. The decision
-    uses package versions only; no library source is read."""
+    """Reason string unless the pinned loaded BNB executable is canonical.
+
+    Retains the latest-main API; never reads installed package source files.
+    """
     import bitsandbytes as bnb
     if bnb.__version__ != PINNED_BNB:
         return "unpinned-bitsandbytes-version"
+    try:
+        if not canonical_bnb():
+            return "noncanonical-bnb-executable"
+    except (AttributeError, TypeError, ValueError, ImportError):
+        return "noncanonical-bnb-executable"
     return None
 
 
